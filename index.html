@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<head>
+    <title>toggle-box</title>
+    <style>
+        .box1 {
+            background-color: purple;
+            height: 100px;
+            width: 200px;
+            margin-top: 5px
+        }
+
+        .box2 {
+            background-color: rgb(168, 5, 5);
+            height: 200px;
+            width: 200px;
+        }
+
+        .box3 {
+            background-color: rgb(23, 9, 143);
+            height: 200px;
+            width: 200px;
+        }
+
+        [v-cloak] {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        {{ greeting }}
+        <input @keyup.enter="greet(greeting + ' 123')" v-model="greeting" />
+        <hr>
+
+        <button @click="toggleBox">Toggle Box</button>
+        <test-box v-if="isVisible" class="box1" />
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        let app = Vue.createApp({
+            data () {
+                return {
+                    greeting: 'Hello Vue 3!!!',
+                    isVisible: false
+                }
+            },
+            methods: {
+                toggleBox () {
+                    this.isVisible = !this.isVisible
+                },
+                greet (greeting) {
+                    console.log(greeting)
+                }
+            },
+            updated () {
+                console.log('updated')
+            }
+        })
+        app.component('test-box', {
+            template: `
+                <div class="box"></div>
+            `,
+            created () {
+                console.log('test-box created')
+            },
+            mounted () {
+                console.log('test-box mounted')
+            },
+            unmounted () {
+                console.log('test-box unmounted')
+            }
+        })
+
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
